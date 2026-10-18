@@ -1,4 +1,3 @@
-
 export const sampleBooks = [
   {
     id: "OL82563W",
