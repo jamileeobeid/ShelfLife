@@ -1,12 +1,12 @@
-
 import { useState } from "react";
 
-function BookInfo({ book }) {
+function BookInfo({ book, details }) {
   const [selectedShelf, setSelectedShelf] = useState("");
   const [savedShelf, setSavedShelf] = useState("");
 
   function handleAddBook() {
     if (selectedShelf === "") return;
+
     setSavedShelf(selectedShelf);
   }
 
@@ -20,19 +20,29 @@ function BookInfo({ book }) {
 
       <div className="details-book-info">
         <h1>{book.title}</h1>
+
         <p className="book-author">by {book.author}</p>
+
         <p>First published: {book.year}</p>
 
-        <div className="shelf-selector">
+        <div
+          className="shelf-selector"
+          style={{ marginTop: "24px" }}
+        >
           <label htmlFor="shelf">Add to Your Shelf</label>
 
-          <div className="shelf-actions">
+          <div
+            className="shelf-actions"
+            style={{ maxWidth: "420px" }}
+          >
             <select
               id="shelf"
               value={selectedShelf}
               onChange={(e) => setSelectedShelf(e.target.value)}
             >
-              <option value="" hidden>Select a shelf</option>
+              <option value="" hidden>
+                Select a shelf
+              </option>
               <option value="Want to Read">Want to Read</option>
               <option value="Reading">Reading</option>
               <option value="Finished">Finished</option>
@@ -49,10 +59,25 @@ function BookInfo({ book }) {
           </div>
 
           {savedShelf && (
-            <p className="shelf-confirmation">
+            <p
+              className="shelf-confirmation"
+              style={{ marginTop: "10px" }}
+            >
               Added to {savedShelf}!
             </p>
           )}
+        </div>
+
+        <div
+          className="book-description"
+          style={{
+            marginTop: "45px",
+            maxWidth: "650px"
+          }}
+        >
+          <p>
+            {details?.description || "No description available."}
+          </p>
         </div>
       </div>
     </section>

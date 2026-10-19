@@ -1,17 +1,16 @@
 function EditionList({ editions }) {
   return (
-    <section className="details-section">
+    <section className="editions-card">
       <h2>Available Editions</h2>
 
-      {editions.length === 0 ? (
-        <p>No editions available.</p>
-      ) : (
-        <ul className="edition-list">
-          {editions.map((edition) => (
-            <li key={edition}>{edition}</li>
-          ))}
-        </ul>
-      )}
+      <div className="editions-list">
+        {editions.map((edition) => (
+          <div className="edition-row" key={edition}>
+            <span>{edition}</span>
+            <span className="edition-arrow">›</span>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

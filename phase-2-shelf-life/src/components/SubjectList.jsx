@@ -1,11 +1,11 @@
 function SubjectList({ subjects }) {
   return (
-    <section className="details-section">
+    <section className="subjects-section">
       <h2>Subjects</h2>
 
-      <div className="subject-list">
+      <div className="subject-tags">
         {subjects.map((subject) => (
-          <span key={subject} className="subject-tag">
+          <span className="subject-tag" key={subject}>
             {subject}
           </span>
         ))}
