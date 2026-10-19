@@ -1,0 +1,409 @@
+
+/* =====================================
+   BOOK DETAILS PAGE
+===================================== */
+
+.book-details-page {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: 28px 30px 60px;
+  color: #17382e;
+  font-family: Arial, sans-serif;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 28px;
+  color: #17382e;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* =====================================
+   BOOK INFORMATION
+===================================== */
+
+.book-details-hero {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.details-cover {
+  display: block;
+  width: 200px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.details-book-info {
+  min-width: 0;
+}
+
+.details-book-info h1 {
+  font-family: Georgia, serif;
+  font-size: clamp(28px, 3vw, 38px);
+  color: #17382e;
+  line-height: 1.2;
+  margin: 0 0 12px;
+}
+
+.details-book-info p {
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 8px;
+}
+
+.book-author {
+  font-weight: 600;
+}
+
+/* =====================================
+   SHELF SELECTOR
+===================================== */
+
+.shelf-selector label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 9px;
+}
+
+.shelf-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.shelf-actions select {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #dcd8cf;
+  border-radius: 7px;
+  background: #ffffff;
+  color: #27362e;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.shelf-actions select:focus {
+  outline: 2px solid #a9c0b4;
+  outline-offset: 1px;
+}
+
+.add-book-button,
+.save-review-button {
+  background: #064d40;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-book-button:hover,
+.save-review-button:hover {
+  background: #083d34;
+}
+
+.add-book-button:disabled,
+.save-review-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.shelf-confirmation {
+  color: #397654;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =====================================
+   BOOK DESCRIPTION
+===================================== */
+
+.book-description p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #293b32;
+}
+
+/* =====================================
+   SUBJECT TAGS
+===================================== */
+
+.subjects-section {
+  margin-top: 26px;
+}
+
+.subjects-section h2 {
+  font-size: 17px;
+  margin: 0 0 13px;
+  color: #17382e;
+}
+
+.subject-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.subject-tag {
+  display: inline-block;
+  background: #dfe8e8;
+  color: #39545a;
+  border-radius: 20px;
+  padding: 7px 13px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+/* =====================================
+   BOTTOM TWO-COLUMN LAYOUT
+===================================== */
+
+.details-bottom-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  margin-top: 30px;
+  align-items: start;
+}
+
+/* =====================================
+   AVAILABLE EDITIONS CARD
+===================================== */
+
+.editions-card {
+  background: #fffdfa;
+  border: 1px solid #e4dfd6;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.editions-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #17382e;
+  padding: 20px;
+  margin: 0;
+  border-bottom: 1px solid #ebe7df;
+}
+
+.editions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.edition-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 19px 20px;
+  border-bottom: 1px solid #ebe7df;
+  color: #293b32;
+  font-size: 14px;
+}
+
+.edition-row:last-child {
+  border-bottom: none;
+}
+
+.edition-arrow {
+  font-size: 23px;
+  line-height: 1;
+  color: #667b72;
+}
+
+/* =====================================
+   BOOK REVIEW CARD
+===================================== */
+
+.reading-notes {
+  min-width: 0;
+  background: #fffdfa;
+  border: 1px solid #e4dfd6;
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.reading-notes h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #17382e;
+  margin: 0 0 14px;
+}
+
+.reading-notes > p {
+  color: #58655f;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+/* =====================================
+   STAR RATING
+===================================== */
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 12px 0 20px;
+}
+
+.star {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #d2cdc4;
+  font-size: 34px;
+  line-height: 1;
+  padding: 0 3px;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.star.active {
+  color: #d5a142;
+}
+
+.star:hover {
+  color: #d5a142;
+  transform: scale(1.1);
+}
+
+.star:focus-visible {
+  outline: 2px solid #064d40;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* =====================================
+   REVIEW TEXTAREA
+===================================== */
+
+.reading-notes label {
+  display: block;
+  color: #293b32;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 9px;
+}
+
+.reading-notes textarea {
+  display: block;
+  width: 100%;
+  min-height: 155px;
+  padding: 14px 16px;
+  background: #ffffff;
+  border: 1px solid #dcd8cf;
+  border-radius: 9px;
+  color: #293b32;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.reading-notes textarea::placeholder {
+  color: #9c9c96;
+}
+
+.reading-notes textarea:focus {
+  outline: none;
+  border-color: #6b9482;
+  box-shadow: 0 0 0 3px rgba(107, 148, 130, 0.15);
+}
+
+.character-count {
+  text-align: right;
+  color: #888a84;
+  font-size: 12px;
+  margin: 8px 0 18px;
+}
+
+.review-confirmation {
+  color: #397654;
+  font-weight: 600;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+/* =====================================
+   RESPONSIVE DESIGN
+===================================== */
+
+@media (max-width: 700px) {
+  .book-details-page {
+    padding: 20px 16px 40px;
+  }
+
+  .back-link {
+    margin-bottom: 20px;
+  }
+
+  .book-details-hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .details-cover {
+    width: 170px;
+  }
+
+  .details-book-info h1 {
+    font-size: 28px;
+  }
+
+  .details-bottom-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  .shelf-actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .shelf-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .shelf-actions select,
+  .add-book-button {
+    width: 100%;
+  }
+
+  .reading-notes,
+  .editions-card h2 {
+    padding: 16px;
+  }
+
+  .edition-row {
+    padding: 16px;
+  }
+
+  .star {
+    font-size: 30px;
+  }
+}
