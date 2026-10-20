@@ -1,12 +1,43 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function BookInfo({ book, details }) {
   const [selectedShelf, setSelectedShelf] = useState("");
   const [savedShelf, setSavedShelf] = useState("");
 
+  // function handleAddBook() {
+  //   if (selectedShelf === "") return;
+
+  //   setSavedShelf(selectedShelf);
+  // }
+
   function handleAddBook() {
     if (selectedShelf === "") return;
 
+    // Get books already saved by the user
+    const savedBooks = JSON.parse(
+      localStorage.getItem("shelflife-books") || "[]",
+    );
+
+    // Check if this book is already on a shelf
+    const existingBook = savedBooks.find((item) => item.id === book.id);
+
+    let updatedBooks;
+
+    if (existingBook) {
+      // Move the book to the selected shelf
+      updatedBooks = savedBooks.map((item) =>
+        item.id === book.id ? { ...item, shelf: selectedShelf } : item,
+      );
+    } else {
+      // Add the new book
+      updatedBooks = [...savedBooks, { ...book, shelf: selectedShelf }];
+    }
+
+    // Save the updated list
+    localStorage.setItem("shelflife-books", JSON.stringify(updatedBooks));
+
+    // Display the existing confirmation message
     setSavedShelf(selectedShelf);
   }
 
@@ -25,16 +56,10 @@ function BookInfo({ book, details }) {
 
         <p>First published: {book.year}</p>
 
-        <div
-          className="shelf-selector"
-          style={{ marginTop: "24px" }}
-        >
+        <div className="shelf-selector" style={{ marginTop: "24px" }}>
           <label htmlFor="shelf">Add to Your Shelf</label>
 
-          <div
-            className="shelf-actions"
-            style={{ maxWidth: "420px" }}
-          >
+          <div className="shelf-actions" style={{ maxWidth: "420px" }}>
             <select
               id="shelf"
               value={selectedShelf}
@@ -56,13 +81,13 @@ function BookInfo({ book, details }) {
             >
               Add Book
             </button>
+            <Link to="/shelves" className="view-shelves-btn">
+              My Shelves 
+            </Link>
           </div>
 
           {savedShelf && (
-            <p
-              className="shelf-confirmation"
-              style={{ marginTop: "10px" }}
-            >
+            <p className="shelf-confirmation" style={{ marginTop: "10px" }}>
               Added to {savedShelf}!
             </p>
           )}
@@ -72,12 +97,10 @@ function BookInfo({ book, details }) {
           className="book-description"
           style={{
             marginTop: "45px",
-            maxWidth: "650px"
+            maxWidth: "650px",
           }}
         >
-          <p>
-            {details?.description || "No description available."}
-          </p>
+          <p>{details?.description || "No description available."}</p>
         </div>
       </div>
     </section>

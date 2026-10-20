@@ -346,6 +346,25 @@
   margin-top: 20px;
 }
 
+/* View my shelves */
+.view-shelves-btn {
+  display: inline-block;
+  background-color: #84a59d;
+  color: white;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.view-shelves-btn:hover {
+  background-color: #6b8f86;
+}
+
+
 /* =====================================
    RESPONSIVE DESIGN
 ===================================== */
