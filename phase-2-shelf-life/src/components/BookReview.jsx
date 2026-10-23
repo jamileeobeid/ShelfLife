@@ -1,4 +1,5 @@
-import {useState} from "react";
+import { useState } from "react";
+import Button from "./Button";
 
 function BookReview(){
     const [rating, setRating] = useState(0);
@@ -50,14 +51,13 @@ function BookReview(){
                 {review.length}/500 characters
             </p>
 
-            <button
-        type="button"
-        className="save-review-button"
-        onClick={handleSave}
-        disabled={rating === 0 && review.trim() === ""}
-      >
-        Save Rating & Review
-      </button>
+            <Button
+              type="button"
+              onClick={handleSave}
+              disabled={rating === 0 && review.trim() === ""}
+            >
+              Save Rating &amp; Review
+            </Button>
 
       {savedReview && (
         <p className="review-confirmation"

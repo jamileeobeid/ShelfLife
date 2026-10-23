@@ -47,7 +47,7 @@ export const sampleBooks = [
     subject: "Fiction",
     cover: "https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1454087681i/489732.jpg"
   },
-    {
+  {
     id: "book-007",
     title: "And Then There Were None",
     author: "Agatha Christie",
@@ -95,7 +95,7 @@ export const sampleBooks = [
     subject: "Historical Fiction",
     cover: "https://m.media-amazon.com/images/I/81CA-WqU+lL.jpg"
   },
-    {
+  {
     id: "book-013",
     title: "The Bell Jar",
     author: "Sylvia Plath",
