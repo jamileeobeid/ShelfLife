@@ -1,18 +1,15 @@
-import BookCard from "./BookCard";
+import ShelfBookCard from "./ShelfBookCard";
 
-function BookList({ books }) {
-  if (books.length === 0) {
-    return (
-      <p className="no-results">
-        No books found. Try a different search.
-      </p>
-    );
-  }
-
+function BookList({ books, onMoveBook, onRemoveBook }) {
   return (
-    <div className="book-grid">
+    <div className="shelf-books-list">
       {books.map((book) => (
-        <BookCard key={book.id} book={book} />
+        <ShelfBookCard
+          key={book.id}
+          book={book}
+          onMoveBook={onMoveBook}
+          onRemoveBook={onRemoveBook}
+        />
       ))}
     </div>
   );
