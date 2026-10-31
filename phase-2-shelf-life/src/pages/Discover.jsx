@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import Book3DItem from "../components/Book3DItem";
 import Button from "../components/Button";
 import { sampleBooks } from "../data/sampleBooks";
 import "./Discover.css";
+import { searchBooks } from "../services/openlibrary";
 
 const GENRES = ["All", "Fiction", "Non-Fiction", "Romance", "Mystery", "Classics", "Poetry", "Historical", "Literary"];
 
@@ -13,8 +14,48 @@ const FEATURED_BOOKS = sampleBooks.slice(-3);
 function Discover() {
   const [search, setSearch] = useState("");
   const [activeGenre, setActiveGenre] = useState("All");
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [retryCount, setRetryCount] = useState(0);
 
-  const filtered = sampleBooks.filter((book) => {
+  
+  useEffect(() => {
+    const controller = new AbortController();
+
+    setLoading(true);
+    setError("");
+    setBooks([]);
+
+    const timer = setTimeout(async () => {
+      try {
+        const results = await searchBooks(
+          search,
+          controller.signal
+        );
+
+        if (!controller.signal.aborted) {
+          setBooks(results);
+        }
+      } catch (err) {
+        if (!controller.signal.aborted) {
+          setError(err.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    }, 350);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
+  }, [search, retryCount]);
+
+
+  const filtered = books.filter((book) => {
     const q = search.toLowerCase().trim();
     const matchesSearch =
       !q ||
@@ -40,7 +81,14 @@ function Discover() {
             Search across classics, contemporary fiction,<br />
             poetry, and beyond.
           </p>
-          <SearchBar search={search} onSearchChange={setSearch} />
+          <SearchBar
+            search={search}
+            onSearchChange={(value) => {
+              setSearch(value);
+              setActiveGenre("All");
+            }}
+            onSubmit={() => setRetryCount((count) => count + 1)}
+          />
         </div>
         <div className="hero-right">
           <img
@@ -71,8 +119,19 @@ function Discover() {
           ))}
         </div>
 
-        {filtered.length === 0 ? (
-          <p className="book-grid-empty">No books match this filter.</p>
+        
+        {loading ? (
+          <p className="book-grid-empty" role="status">
+            Loading books...
+          </p>
+        ) : error ? (
+          <p className="book-grid-empty" role="alert">
+            {error}
+          </p>
+        ) : filtered.length === 0 ? (
+          <p className="book-grid-empty">
+            No books found. Try another search or genre.
+          </p>
         ) : (
           <ul className="book-grid-3d">
             {filtered.map((book) => (
