@@ -5,7 +5,7 @@ import Book3DItem from "../components/Book3DItem";
 import Button from "../components/Button";
 import { sampleBooks } from "../data/sampleBooks";
 import "./Discover.css";
-import { searchBooks } from "../services/openlibrary";
+import { searchBooks } from "../services/openLibrary";
 
 const GENRES = ["All", "Fiction", "Non-Fiction", "Romance", "Mystery", "Classics", "Poetry", "Historical", "Literary"];
 
