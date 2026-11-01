@@ -1,0 +1,94 @@
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeleton {
+  display: block;
+  background: linear-gradient(
+    90deg,
+    var(--color-border)  0%,
+    var(--color-surface) 45%,
+    var(--color-border)  100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-w-full { width: 100%; }
+.skeleton-w-80   { width: 80%; }
+.skeleton-w-75   { width: 75%; }
+.skeleton-w-70   { width: 70%; }
+
+.skeleton-book-3d {
+  width: 120px;
+  height: 180px;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: -6px 4px 16px rgba(0, 0, 0, 0.12);
+  background: linear-gradient(
+    90deg,
+    var(--color-border)  0%,
+    var(--color-surface) 45%,
+    var(--color-border)  100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.skeleton-book-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.skeleton-details-wrap {
+  padding-top: 28px;
+}
+
+.skeleton-hero {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+  margin-top: 32px;
+}
+
+.skeleton-cover {
+  width: 200px;
+  height: 290px;
+}
+
+.skeleton-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 4px;
+}
+
+.skeleton-desc {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.skeleton-shelf {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+@media (max-width: 700px) {
+  .skeleton-hero {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .skeleton-cover {
+    width: 160px;
+    height: 230px;
+  }
+}

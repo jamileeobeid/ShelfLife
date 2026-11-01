@@ -40,6 +40,7 @@ function Book3DItem({ book }) {
     <li className="book-item">
       <Link
         to={`/books/${book.id}`}
+        state={{ book }}
         className="book-scene"
         aria-label={`View details for ${book.title}`}
       >
