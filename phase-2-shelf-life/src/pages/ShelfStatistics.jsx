@@ -4,6 +4,7 @@ import { sampleBooks } from "../data/sampleBooks";
 import Button from "../components/Button";
 import StatCard from "../components/StatCard";
 import GenreDonut, { buildGenres } from "../components/GenreDonut";
+import EmptyState from "../components/EmptyState";
 import "./ShelfStatistics.css";
 
 const SHELF_NAMES = ["Want to Read", "Reading", "Finished"];
@@ -18,7 +19,6 @@ const startingBooks = sampleBooks.slice(0, 9).map((book, i) => ({
   shelf: i < 4 ? "Want to Read" : i < 6 ? "Reading" : "Finished",
 }));
 
-// Read books saved in localStorage
 function loadSavedBooks() {
   try {
     const saved = localStorage.getItem("shelflife-books");
@@ -51,7 +51,6 @@ function ShelfStatistics() {
     };
   }, []);
 
-  // Only include books assigned to an active shelf
   const activeBooks = books.filter((book) =>
     SHELF_NAMES.includes(book?.shelf)
   );
@@ -75,11 +74,10 @@ function ShelfStatistics() {
   const wantCount =
     shelfCounts.find((s) => s.name === "Want to Read")?.count ?? 0;
 
-  // Genre statistics
+
   const genres = buildGenres(activeBooks);
   const topGenre = genres[0]?.name ?? "—";
 
-  // Publication decade statistics
   const decadeMap = activeBooks.reduce((acc, book) => {
     const year = Number(book.year);
 
@@ -119,6 +117,20 @@ function ShelfStatistics() {
         </Button>
       </header>
 
+      {activeBooks.length === 0 ? (
+        <div className="stats-body">
+          <EmptyState
+            type="no-stats"
+            title="Nothing to see here yet"
+            message="Add books to your shelves and your reading stats will appear here."
+            action={
+              <Button as={Link} to="/shelves" variant="primary">
+                Go to My Shelves
+              </Button>
+            }
+          />
+        </div>
+      ) : (
       <div className="stats-body">
         <div className="stats-cards">
           <StatCard
@@ -224,6 +236,7 @@ function ShelfStatistics() {
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 }

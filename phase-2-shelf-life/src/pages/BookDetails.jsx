@@ -5,13 +5,14 @@ import BookInfo from "../components/BookInfo";
 import SubjectList from "../components/SubjectList";
 import EditionList from "../components/EditionList";
 import BookReview from "../components/BookReview";
+import { BookDetailsSkeleton } from "../components/Skeleton";
+import ErrorState from "../components/ErrorState";
 import "./BookDetails.css";
 
 function BookDetails() {
   const { id } = useParams();
   const location = useLocation();
 
-  // Get the book information passed from Discover
   const selectedBook =
     location.state?.book?.id === id
       ? location.state.book
@@ -21,6 +22,7 @@ function BookDetails() {
   const [editions, setEditions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -32,20 +34,17 @@ function BookDetails() {
       setEditions([]);
 
       try {
-        // Fetch full book details from Open Library
         const bookData = await getBookDetails(
           id,
           controller.signal
         );
 
-        // Fetch available editions
         const editionData = await getBookEditions(
           id,
           controller.signal
         );
 
         if (!controller.signal.aborted) {
-          // Combine Discover data with API details
           const completeBook = {
             ...selectedBook,
             ...bookData,
@@ -76,11 +75,8 @@ function BookDetails() {
           setEditions(editionData);
         }
       } catch (err) {
-        if (
-          err.name !== "AbortError" &&
-          !controller.signal.aborted
-        ) {
-          setError(err.message);
+        if (err.name !== "AbortError" && !controller.signal.aborted) {
+          setError(err);
         }
       } finally {
         if (!controller.signal.aborted) {
@@ -92,28 +88,27 @@ function BookDetails() {
     loadBook();
 
     return () => controller.abort();
-  }, [id, selectedBook]);
+  }, [id, selectedBook, retryCount]);
 
-  if (loading) {
-    return (
-      <div className="book-details-page">
-        Loading book details...
-      </div>
-    );
-  }
+  if (loading) return <BookDetailsSkeleton />;
 
   if (error) {
     return (
-      <div className="book-not-found" role="alert">
-        Error: {error}
+      <div className="page-container">
+        <Link to="/" className="back-link">← Back to Discover</Link>
+        <ErrorState
+          type={error?.code ?? "DEFAULT"}
+          onRetry={() => setRetryCount((c) => c + 1)}
+        />
       </div>
     );
   }
 
   if (!book) {
     return (
-      <div className="book-not-found">
-        Book not found.
+      <div className="page-container">
+        <Link to="/" className="back-link">← Back to Discover</Link>
+        <ErrorState type="NOT_FOUND" />
       </div>
     );
   }

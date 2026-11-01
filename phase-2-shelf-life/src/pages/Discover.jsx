@@ -1,50 +1,56 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import Book3DItem from "../components/Book3DItem";
 import Button from "../components/Button";
+import { BookGridSkeleton } from "../components/Skeleton";
+import ErrorState from "../components/ErrorState";
+import EmptyState from "../components/EmptyState";
 import { sampleBooks } from "../data/sampleBooks";
 import "./Discover.css";
 import { searchBooks } from "../services/openLibrary";
 
 const GENRES = ["All", "Fiction", "Non-Fiction", "Romance", "Mystery", "Classics", "Poetry", "Historical", "Literary"];
-
+const PAGE_SIZE = 24;
 const FEATURED_BOOKS = sampleBooks.slice(-3);
 
 function Discover() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch]           = useState("");
   const [activeGenre, setActiveGenre] = useState("All");
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [retryCount, setRetryCount] = useState(0);
+  const [books, setBooks]             = useState([]);
+  const [total, setTotal]             = useState(0);
+  const [offset, setOffset]           = useState(0);
+  const [loading, setLoading]         = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError]             = useState(null);
+  const [retryCount, setRetryCount]   = useState(0);
+  const abortRef = useRef(null);
 
-  
   useEffect(() => {
+    if (abortRef.current) abortRef.current.abort();
     const controller = new AbortController();
+    abortRef.current = controller;
 
     setLoading(true);
-    setError("");
+    setError(null);
     setBooks([]);
+    setTotal(0);
+    setOffset(0);
 
     const timer = setTimeout(async () => {
       try {
-        const results = await searchBooks(
-          search,
+        const { books: results, total: count } = await searchBooks(
+          { query: search, genre: activeGenre, offset: 0 },
           controller.signal
         );
-
         if (!controller.signal.aborted) {
           setBooks(results);
+          setTotal(count);
         }
       } catch (err) {
-        if (!controller.signal.aborted) {
-          setError(err.message);
-        }
+        if (!controller.signal.aborted) setError(err);
       } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
+        if (!controller.signal.aborted) setLoading(false);
       }
     }, 350);
 
@@ -52,21 +58,28 @@ function Discover() {
       clearTimeout(timer);
       controller.abort();
     };
-  }, [search, retryCount]);
+  }, [search, activeGenre, retryCount]);
 
+  async function handleLoadMore() {
+    const nextOffset = offset + PAGE_SIZE;
+    const controller = new AbortController();
+    setLoadingMore(true);
 
-  const filtered = books.filter((book) => {
-    const q = search.toLowerCase().trim();
-    const matchesSearch =
-      !q ||
-      book.title.toLowerCase().includes(q) ||
-      book.author.toLowerCase().includes(q) ||
-      book.subject.toLowerCase().includes(q);
-    const matchesGenre =
-      activeGenre === "All" ||
-      book.subject.toLowerCase().includes(activeGenre.toLowerCase());
-    return matchesSearch && matchesGenre;
-  });
+    try {
+      const { books: more } = await searchBooks(
+        { query: search, genre: activeGenre, offset: nextOffset },
+        controller.signal
+      );
+      setBooks((prev) => [...prev, ...more]);
+      setOffset(nextOffset);
+    } catch (err) {
+      if (err.name !== "AbortError") setError(err);
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+
+  const hasMore = books.length < total && books.length > 0;
 
   return (
     <div className="discover-page">
@@ -87,7 +100,7 @@ function Discover() {
               setSearch(value);
               setActiveGenre("All");
             }}
-            onSubmit={() => setRetryCount((count) => count + 1)}
+            onSubmit={() => setRetryCount((c) => c + 1)}
           />
         </div>
         <div className="hero-right">
@@ -104,7 +117,11 @@ function Discover() {
           <h2 className="collection-heading">
             <span className="collection-dash">—</span> Our Collection
           </h2>
-          <span className="collection-count">{filtered.length} {filtered.length === 1 ? "book" : "books"}</span>
+          {!loading && !error && (
+            <span className="collection-count">
+              {books.length} of {total.toLocaleString()} books
+            </span>
+          )}
         </div>
 
         <div className="genre-filters" role="group" aria-label="Filter by genre">
@@ -119,25 +136,44 @@ function Discover() {
           ))}
         </div>
 
-        
         {loading ? (
-          <p className="book-grid-empty" role="status">
-            Loading books...
-          </p>
+          <BookGridSkeleton count={10} />
         ) : error ? (
-          <p className="book-grid-empty" role="alert">
-            {error}
-          </p>
-        ) : filtered.length === 0 ? (
-          <p className="book-grid-empty">
-            No books found. Try another search or genre.
-          </p>
+          <ErrorState
+            type={error.code ?? "DEFAULT"}
+            onRetry={() => setRetryCount((c) => c + 1)}
+          />
+        ) : books.length === 0 ? (
+          <EmptyState
+            type={search.trim() ? "no-results" : "empty-shelf"}
+            title={search.trim() ? `No results for "${search}"` : `Nothing in ${activeGenre}`}
+            message={
+              search.trim()
+                ? "We couldn't find any books matching your search. Try different keywords or browse by genre."
+                : "There are no books in this genre right now. Try a different genre or search for something specific."
+            }
+          />
         ) : (
-          <ul className="book-grid-3d">
-            {filtered.map((book) => (
-              <Book3DItem key={book.id} book={book} />
-            ))}
-          </ul>
+          <>
+            <ul className="book-grid-3d">
+              {books.map((book) => (
+                <Book3DItem key={book.id} book={book} />
+              ))}
+            </ul>
+
+            {loadingMore && <BookGridSkeleton count={6} />}
+
+            {hasMore && !loadingMore && (
+              <div className="load-more">
+                <Button variant="cta" size="lg" onClick={handleLoadMore}>
+                  Load More Books
+                </Button>
+                <span className="load-more-hint">
+                  Showing {books.length} of {total.toLocaleString()}
+                </span>
+              </div>
+            )}
+          </>
         )}
       </section>
 
