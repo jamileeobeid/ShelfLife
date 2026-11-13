@@ -4,6 +4,7 @@ import Discover from "./pages/Discover";
 import BookDetails from "./pages/BookDetails";
 import MyShelves from "./pages/MyShelves";
 import ShelfStatistics from "./pages/ShelfStatistics";
+import ReadingGoal from "./pages/ReadingGoal";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/books/:id" element={<BookDetails />} />
           <Route path="/shelves" element={<MyShelves />} />
           <Route path="/statistics" element={<ShelfStatistics />} />
+          <Route path="/reading-goal" element={<ReadingGoal />} />
         </Route>
       </Routes>
     </BrowserRouter>

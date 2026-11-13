@@ -38,6 +38,9 @@ function NavBar() {
         <NavLink to="/statistics" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>
           Statistics
         </NavLink>
+        <NavLink to="/reading-goal" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>
+          Reading Goal
+        </NavLink>
         <button
           className="nav-link nav-theme-toggle"
           onClick={() => setDark((d) => !d)}

@@ -1,0 +1,21 @@
+.reading-goal-page { min-height: calc(100vh - 58px); background: var(--color-page-bg); }
+.reading-goal-header { padding: 38px clamp(20px, 5vw, 56px); background: var(--color-dark); color: #fff; }
+.reading-goal-eyebrow { color: var(--color-light); letter-spacing: .15em; font-size: 11px; font-weight: 700; }
+.reading-goal-header h1 { font: 700 clamp(28px, 4vw, 42px) Georgia, serif; margin: 10px 0; }
+.reading-goal-header > p:last-child { color: #e1e5d7; margin: 0; }
+.reading-goal-content { width: min(100% - 40px, 620px); margin: 36px auto 60px; }
+.reading-goal-form, .reading-goal-success { padding: clamp(20px, 4vw, 32px); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 12px; }
+.reading-goal-intro, .reading-goal-hint, .reading-goal-note { color: var(--color-muted); font-size: 13px; }
+.reading-goal-intro { margin: 0 0 24px; }
+.reading-goal-field { margin-bottom: 20px; display: flex; flex-direction: column; gap: 7px; }
+.reading-goal-field label { color: var(--color-text); font-weight: 600; font-size: 14px; }
+.reading-goal-field input, .reading-goal-field select, .reading-goal-field textarea { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--color-border); border-radius: 7px; background: var(--color-surface); color: var(--color-text); }
+.reading-goal-field [aria-invalid="true"] { border: 2px solid var(--color-danger); }
+.reading-goal-field :is(input, select, textarea):focus-visible { outline: 2px solid var(--color-mid); outline-offset: 2px; }
+.reading-goal-error { color: var(--color-danger); font-size: 13px; margin: 0; }
+.reading-goal-hint { align-self: flex-end; }
+.reading-goal-submit { border: none; background: var(--color-mid); color: white; border-radius: 8px; padding: 13px 22px; font-weight: 700; cursor: pointer; width: 100%; }
+.reading-goal-submit:hover { background: var(--color-dark); }
+.reading-goal-success { margin-top: 20px; border-left: 4px solid var(--color-mid); }
+.reading-goal-success h2 { margin-top: 0; font-family: Georgia, serif; color: var(--color-heading); }
+.reading-goal-success p { color: var(--color-text); overflow-wrap: anywhere; }
