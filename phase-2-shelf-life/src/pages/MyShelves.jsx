@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { sampleBooks } from "../data/sampleBooks";
+import { useBooks } from "../state/BookContext";
 import ShelfSidebar from "../components/ShelfSidebar";
 import BookList from "../components/BookList";
 import Button from "../components/Button";
@@ -8,38 +8,9 @@ import "./MyShelves.css";
 
 const SHELVES = ["Want to Read", "Reading", "Finished"];
 
-const startingBooks = sampleBooks.slice(0, 9).map((book, index) => ({
-  ...book,
-  shelf: index < 4 ? "Want to Read" : index < 6 ? "Reading" : "Finished",
-}));
-
 function MyShelves() {
   const [selectedShelf, setSelectedShelf] = useState("Reading");
-
-  const [books, setBooks] = useState(() => {
-    try {
-      const saved = localStorage.getItem("shelflife-books");
-      return saved ? JSON.parse(saved) : startingBooks;
-    } catch {
-      return startingBooks;
-    }
-  });
-
-  useEffect(() => {
-    localStorage.setItem("shelflife-books", JSON.stringify(books));
-  }, [books]);
-
-  function moveBook(bookId, newShelf) {
-    setBooks((prev) =>
-      prev.map((book) =>
-        book.id === bookId ? { ...book, shelf: newShelf } : book
-      )
-    );
-  }
-
-  function removeBook(bookId) {
-    setBooks((prev) => prev.filter((book) => book.id !== bookId));
-  }
+  const { books, moveBook, removeBook } = useBooks();
 
   const visibleBooks = books.filter((book) => book.shelf === selectedShelf);
 

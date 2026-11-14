@@ -2,21 +2,17 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import ShelfSelect from "./ShelfSelect";
+import { useBooks } from "../state/BookContext";
 
 function BookInfo({ book, details }) {
   const [selectedShelf, setSelectedShelf] = useState("");
   const [savedShelf, setSavedShelf] = useState("");
+  const { books, addBook } = useBooks();
+
+  const existingBook = books.find((item) => item.id === book.id);
 
   function handleAddBook() {
     if (selectedShelf === "") return;
-
-    const savedBooks = JSON.parse(
-      localStorage.getItem("shelflife-books") || "[]"
-    );
-
-    const existingBook = savedBooks.find(
-      (item) => item.id === book.id
-    );
 
     const bookToSave = {
       ...book,
@@ -26,19 +22,7 @@ function BookInfo({ book, details }) {
       shelf: selectedShelf
     };
 
-    const updatedBooks = existingBook
-      ? savedBooks.map((item) =>
-          item.id === book.id
-            ? { ...item, ...bookToSave }
-            : item
-        )
-      : [...savedBooks, bookToSave];
-
-    localStorage.setItem(
-      "shelflife-books",
-      JSON.stringify(updatedBooks)
-    );
-
+    addBook(bookToSave);
     setSavedShelf(selectedShelf);
   }
 
@@ -79,7 +63,7 @@ function BookInfo({ book, details }) {
           <div className="shelf-actions">
             <ShelfSelect
               id="shelf"
-              value={selectedShelf}
+              value={selectedShelf || existingBook?.shelf || ""}
               onChange={(e) => setSelectedShelf(e.target.value)}
               placeholder="Select a shelf"
             />
@@ -87,7 +71,7 @@ function BookInfo({ book, details }) {
             <Button
               type="button"
               onClick={handleAddBook}
-              disabled={!selectedShelf}
+              disabled={!selectedShelf || selectedShelf === existingBook?.shelf}
             >
               Add Book
             </Button>
@@ -102,6 +86,14 @@ function BookInfo({ book, details }) {
               ✓ Added to {savedShelf}!
             </p>
           )}
+          
+          {/* {existingBook && (
+            <p className="shelf-confirmation" style={{ marginTop: "12px" }}>
+              ✓ Already in your {existingBook.shelf} shelf
+            </p>
+          )} */}
+
+          
         </div>
       </div>
     </section>

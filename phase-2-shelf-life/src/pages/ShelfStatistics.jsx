@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useBooks } from "../state/BookContext";
 import { Link } from "react-router-dom";
-import { sampleBooks } from "../data/sampleBooks";
 import Button from "../components/Button";
 import StatCard from "../components/StatCard";
 import GenreDonut, { buildGenres } from "../components/GenreDonut";
@@ -14,42 +13,8 @@ const QUOTE = {
   author: "Frank Zappa",
 };
 
-const startingBooks = sampleBooks.slice(0, 9).map((book, i) => ({
-  ...book,
-  shelf: i < 4 ? "Want to Read" : i < 6 ? "Reading" : "Finished",
-}));
-
-function loadSavedBooks() {
-  try {
-    const saved = localStorage.getItem("shelflife-books");
-
-    if (saved === null) {
-      return startingBooks;
-    }
-
-    const parsed = JSON.parse(saved);
-
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
-
 function ShelfStatistics() {
-  const [books, setBooks] = useState(loadSavedBooks);
-
-  useEffect(() => {
-    // Update statistics when localStorage changes
-    function handleStorageChange() {
-      setBooks(loadSavedBooks());
-    }
-
-    window.addEventListener("storage", handleStorageChange);
-
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
+  const { books } = useBooks();
 
   const activeBooks = books.filter((book) =>
     SHELF_NAMES.includes(book?.shelf)

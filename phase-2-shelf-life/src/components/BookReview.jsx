@@ -1,16 +1,22 @@
 import { useState } from "react";
 import Button from "./Button";
+import { useBooks } from "../state/BookContext";
 
-function BookReview(){
-    const [rating, setRating] = useState(0);
-    const [review, setReview] = useState("");
-    const [savedReview, setSavedReview] = useState("");
+function BookReview({ bookId }) {
+    const { reviews, saveReview } = useBooks();
+
+    const existingReview = reviews[bookId];
+
+    const [rating, setRating] = useState(existingReview?.rating ?? 0);
+    const [review, setReview] = useState(existingReview?.review ?? "");
+    const [savedReview, setSavedReview] = useState(false);
 
     function handleSave() {
-        if (rating === 0 && review.trim() === ""){ 
+        if (rating === 0 && review.trim() === "") {
             return;
         }
 
+        saveReview(bookId, rating, review.trim());
         setSavedReview(true);
     }
     
@@ -63,7 +69,7 @@ function BookReview(){
         <p className="review-confirmation"
             style={{ marginTop: "20px" }}
             >
-          ✓ Your rating/review has been saved for this session!
+          ✓ Your rating/review has been saved!
         </p>
       )}
     </section>
