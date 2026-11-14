@@ -131,7 +131,7 @@ function BookDetails() {
 
       <div className="details-bottom-grid">
         <EditionList editions={editions} />
-        <BookReview key={book.id} />
+        <BookReview key={book.id} bookId={book.id} />
       </div>
     </div>
   );
