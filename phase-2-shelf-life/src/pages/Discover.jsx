@@ -181,7 +181,7 @@ function Discover() {
         <div className="featured-left">
           <p className="featured-eyebrow">FEATURED PICKS</p>
           <h2 className="featured-title">
-            Stories that stay<br />with you.
+            Stories that stay with you.
           </h2>
           <p className="featured-subtitle">
             Handpicked books for every mood, moment,<br />and season.

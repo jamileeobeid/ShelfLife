@@ -9,7 +9,10 @@ function NavBar() {
   });
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+    document.documentElement.setAttribute(
+      "data-theme",
+      dark ? "dark" : "light",
+    );
     localStorage.setItem("shelflife-theme", dark ? "dark" : "light");
   }, [dark]);
 
@@ -21,24 +24,58 @@ function NavBar() {
     <header className="navbar">
       {/* Brand */}
       <NavLink to="/" className="navbar-brand" onClick={closeMenu}>
-        <svg className="navbar-leaf" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 2-8 2z"/>
+        <svg
+          className="navbar-leaf"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20C19 20 22 3 22 3c-1 2-8 2-8 2z" />
         </svg>
         ShelfLife
       </NavLink>
 
       {/* Center nav */}
-      <nav className={`navbar-links ${menuOpen ? "open" : ""}`}>
-        <NavLink to="/" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} end onClick={closeMenu}>
+      <nav
+        id="primary-navigation"
+        aria-label="Main navigation"
+        className={`navbar-links ${menuOpen ? "open" : ""}`}
+      >
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+          end
+          onClick={closeMenu}
+        >
           Discover
         </NavLink>
-        <NavLink to="/shelves" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>
+        <NavLink
+          to="/shelves"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+          onClick={closeMenu}
+        >
           My Shelves
         </NavLink>
-        <NavLink to="/statistics" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>
+        <NavLink
+          to="/statistics"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+          onClick={closeMenu}
+        >
           Statistics
         </NavLink>
-        <NavLink to="/reading-goal" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"} onClick={closeMenu}>
+        <NavLink
+          to="/reading-goal"
+          className={({ isActive }) =>
+            isActive ? "nav-link active" : "nav-link"
+          }
+          onClick={closeMenu}
+        >
           Reading Goal
         </NavLink>
         <button
@@ -59,21 +96,37 @@ function NavBar() {
         >
           {dark ? (
             /* Sun icon */
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="4"/>
-              <line x1="12" y1="2" x2="12" y2="4"/>
-              <line x1="12" y1="20" x2="12" y2="22"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="2" y1="12" x2="4" y2="12"/>
-              <line x1="20" y1="12" x2="22" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <line x1="12" y1="2" x2="12" y2="4" />
+              <line x1="12" y1="20" x2="12" y2="22" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="2" y1="12" x2="4" y2="12" />
+              <line x1="20" y1="12" x2="22" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
           ) : (
             /* Moon icon */
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
             </svg>
           )}
         </button>
@@ -83,8 +136,11 @@ function NavBar() {
           onClick={() => setMenuOpen((p) => !p)}
           aria-label="Toggle navigation menu"
           aria-expanded={menuOpen}
+          aria-controls="primary-navigation"
         >
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
       </div>
     </header>

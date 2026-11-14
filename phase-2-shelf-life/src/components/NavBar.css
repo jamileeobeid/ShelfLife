@@ -204,3 +204,85 @@
     display: flex;
   }
 }
+
+
+/* Tablet and mobile navigation improvements */
+@media (min-width: 641px) and (max-width: 900px) {
+  .navbar {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    height: auto;
+    min-height: 58px;
+  }
+
+  .navbar-brand {
+    flex: 1;
+    min-height: 58px;
+  }
+
+  .navbar-right {
+    min-height: 58px;
+  }
+
+  .navbar-links {
+    display: none;
+    order: 3;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 8px 0 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .navbar-links.open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: 12px 14px;
+    border-radius: 8px;
+  }
+
+  .navbar-theme {
+    display: none;
+  }
+
+  .nav-theme-toggle {
+    display: block;
+  }
+
+  .navbar-hamburger {
+    display: flex;
+  }
+}
+
+/* Accessible navigation controls */
+.navbar-theme,
+.navbar-hamburger {
+  width: 44px;
+  height: 44px;
+}
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.navbar-hamburger {
+  align-items: center;
+}
+
+.navbar-hamburger span {
+  width: 22px;
+}
+
+.navbar-hamburger.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.navbar-hamburger.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
