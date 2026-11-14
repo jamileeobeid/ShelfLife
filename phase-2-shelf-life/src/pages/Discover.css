@@ -181,7 +181,10 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
   white-space: nowrap;
 }
 
@@ -387,7 +390,11 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(26, 36, 16, 0.95) 40%, rgba(26, 36, 16, 0.3) 100%);
+  background: linear-gradient(
+    to right,
+    rgba(26, 36, 16, 0.95) 40%,
+    rgba(26, 36, 16, 0.3) 100%
+  );
 }
 
 .featured-left {
@@ -422,7 +429,6 @@
   line-height: 1.65;
   margin: 0 0 28px;
 }
-
 
 .featured-books {
   position: relative;
@@ -473,13 +479,17 @@
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
-    min-height: auto;
+    height: auto;
   }
   .hero-right {
     height: 260px;
   }
   .hero-right::before {
-    background: linear-gradient(to bottom, var(--color-dark) 0%, transparent 40%);
+    background: linear-gradient(
+      to bottom,
+      var(--color-dark) 0%,
+      transparent 40%
+    );
   }
   .hero-left {
     padding: 48px 32px 40px;
