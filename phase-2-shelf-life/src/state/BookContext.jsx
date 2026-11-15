@@ -46,7 +46,6 @@ export function BookProvider({ children }) {
     try {
       localStorage.setItem("shelflife-books", JSON.stringify(books));
     } catch {
-      // Ignore errors when saving to localStorage
     }
   }, [books]);
 
@@ -54,7 +53,6 @@ export function BookProvider({ children }) {
     try {
       localStorage.setItem("shelflife-reviews", JSON.stringify(reviews));
     } catch {
-      // Ignore errors when saving to localStorage
     }
   }, [reviews]);
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function extractLeftEdgeColor(src, callback) {
   const img = new Image();
   img.crossOrigin = "anonymous";
-  img.onerror = () => { /* cover unavailable, keep default spine color */ };
+  img.onerror = () => {};
   img.onload = () => {
     try {
       const h = img.naturalHeight || 200;
@@ -12,7 +12,6 @@ function extractLeftEdgeColor(src, callback) {
       canvas.width = 4;
       canvas.height = h;
       const ctx = canvas.getContext("2d");
-      // Sample only the leftmost 4px strip of the cover
       ctx.drawImage(img, 0, 0, 4, h);
       const { data } = ctx.getImageData(0, 0, 4, h);
       const pixels = data.length / 4;
@@ -20,11 +19,9 @@ function extractLeftEdgeColor(src, callback) {
       for (let i = 0; i < data.length; i += 4) {
         r += data[i]; g += data[i + 1]; b += data[i + 2];
       }
-      // Darken so the spine reads as a shadowed side face
       const d = 0.7;
       callback(`rgb(${Math.round(r / pixels * d)},${Math.round(g / pixels * d)},${Math.round(b / pixels * d)})`);
     } catch {
-      // CORS blocked on this host — keep default
     }
   };
   img.src = src;

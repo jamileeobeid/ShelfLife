@@ -62,7 +62,6 @@ function ReadingGoal() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(goal));
     } catch {
-      // Ignore storage errors
     }
 
     setSavedGoal(goal);
@@ -75,7 +74,6 @@ function ReadingGoal() {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch {
-      // Ignore storage errors
     }
     setSavedGoal(null);
   }
@@ -114,7 +112,6 @@ function ReadingGoal() {
 
       <div className="reading-goal-body">
 
-        {/* Left — form */}
         <div className="reading-goal-form-col">
           {savedGoal && (
             <section className="reading-goal-success" role="status" aria-live="polite">
@@ -200,7 +197,6 @@ function ReadingGoal() {
           </form>
         </div>
 
-        {/* Right — info panel */}
         <aside className="reading-goal-panel">
           <div className="rg-panel-card">
             <p className="rg-panel-eyebrow">Why set a goal?</p>

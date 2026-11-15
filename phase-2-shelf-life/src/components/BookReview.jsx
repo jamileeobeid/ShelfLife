@@ -11,7 +11,6 @@ function BookReview({ bookId }) {
   const [review, setReview] = useState(existingReview?.review ?? "");
   const [savedReview, setSavedReview] = useState(false);
 
-  // Sync state if the review loads from localStorage after mount
   useEffect(() => {
     setRating(existingReview?.rating ?? 0);
     setReview(existingReview?.review ?? "");

@@ -117,7 +117,6 @@ export async function getBookDetails(id, signal) {
       ? data.description
       : data.description?.value || "No description available.";
 
-  // Fetch author names from the authors array in the work data
   let author = "Unknown Author";
   const authorRefs = data.authors || [];
   if (authorRefs.length > 0) {
@@ -133,11 +132,9 @@ export async function getBookDetails(id, signal) {
       const validNames = authorNames.filter(Boolean);
       if (validNames.length > 0) author = validNames.join(", ");
     } catch {
-      // Keep "Unknown Author" if author fetch fails
     }
   }
 
-  // Get first publish year from the search API as a fallback
   let year = "Unknown";
   try {
     const searchData = await fetchJSON(
@@ -146,7 +143,6 @@ export async function getBookDetails(id, signal) {
     );
     year = searchData.docs?.[0]?.first_publish_year || "Unknown";
   } catch {
-    // Keep "Unknown" if year fetch fails
   }
 
   return {
