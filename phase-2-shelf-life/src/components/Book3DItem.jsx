@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function extractLeftEdgeColor(src, callback) {
   const img = new Image();
   img.crossOrigin = "anonymous";
+  img.onerror = () => { /* cover unavailable, keep default spine color */ };
   img.onload = () => {
     try {
       const h = img.naturalHeight || 200;

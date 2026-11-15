@@ -21,6 +21,18 @@ function loadBooks() {
   }
 }
 
+function loadReviews() {
+  try {
+    const saved = localStorage.getItem("shelflife-reviews");
+    if (!saved) return {};
+
+    const parsed = JSON.parse(saved);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
 export function BookProvider({ children }) {
   const [books, dispatch] = useReducer(
     booksReducer,
@@ -28,7 +40,7 @@ export function BookProvider({ children }) {
     loadBooks
   );
 
-  const [reviews, reviewDispatch] = useReducer(reviewsReducer, {});
+  const [reviews, reviewDispatch] = useReducer(reviewsReducer, undefined, loadReviews);
 
   useEffect(() => {
     try {
@@ -37,6 +49,14 @@ export function BookProvider({ children }) {
       // Ignore errors when saving to localStorage
     }
   }, [books]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("shelflife-reviews", JSON.stringify(reviews));
+    } catch {
+      // Ignore errors when saving to localStorage
+    }
+  }, [reviews]);
 
   function addBook(book) {
     dispatch({ type: "ADD_BOOK", book });

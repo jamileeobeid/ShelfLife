@@ -75,7 +75,7 @@ function normalizeBook(book) {
     year:    book.first_publish_year || "Unknown",
     subject: book.subject?.[0] || "Uncategorized",
     cover:   book.cover_i
-      ? `${COVER_BASE}/b/id/${book.cover_i}-L.jpg`
+      ? `${COVER_BASE}/b/id/${book.cover_i}-M.jpg`
       : "/book-placeholder.svg"
   };
 }
@@ -117,12 +117,46 @@ export async function getBookDetails(id, signal) {
       ? data.description
       : data.description?.value || "No description available.";
 
+  // Fetch author names from the authors array in the work data
+  let author = "Unknown Author";
+  const authorRefs = data.authors || [];
+  if (authorRefs.length > 0) {
+    try {
+      const authorNames = await Promise.all(
+        authorRefs.slice(0, 3).map(async (entry) => {
+          const authorKey = entry.author?.key;
+          if (!authorKey) return null;
+          const authorData = await fetchJSON(`${API_BASE}${authorKey}.json`, signal);
+          return authorData.name || null;
+        })
+      );
+      const validNames = authorNames.filter(Boolean);
+      if (validNames.length > 0) author = validNames.join(", ");
+    } catch {
+      // Keep "Unknown Author" if author fetch fails
+    }
+  }
+
+  // Get first publish year from the search API as a fallback
+  let year = "Unknown";
+  try {
+    const searchData = await fetchJSON(
+      `${API_BASE}/search.json?q=key:/works/${id}&fields=first_publish_year&limit=1`,
+      signal
+    );
+    year = searchData.docs?.[0]?.first_publish_year || "Unknown";
+  } catch {
+    // Keep "Unknown" if year fetch fails
+  }
+
   return {
     id,
-    title:       data.title || "Unknown Title",
+    title:    data.title || "Unknown Title",
+    author,
+    year,
     description,
-    subjects:    data.subjects || [],
-    cover:       data.covers?.[0]
+    subjects: data.subjects || [],
+    cover:    data.covers?.[0]
       ? `${COVER_BASE}/b/id/${data.covers[0]}-L.jpg`
       : "/book-placeholder.svg"
   };
