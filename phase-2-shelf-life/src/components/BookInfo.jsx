@@ -86,14 +86,7 @@ function BookInfo({ book, details }) {
               ✓ Added to {savedShelf}!
             </p>
           )}
-          
-          {/* {existingBook && (
-            <p className="shelf-confirmation" style={{ marginTop: "12px" }}>
-              ✓ Already in your {existingBook.shelf} shelf
-            </p>
-          )} */}
 
-          
         </div>
       </div>
     </section>

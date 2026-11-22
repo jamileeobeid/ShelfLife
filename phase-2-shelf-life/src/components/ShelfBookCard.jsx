@@ -6,7 +6,6 @@ function ShelfBookCard({ book, onMoveBook, onRemoveBook }) {
   return (
     <div className="shelf-book-card">
 
-      {/* Cover */}
       <Link to={`/books/${book.id}`} className="shelf-book-cover-link">
         <img
           src={book.cover}
@@ -16,7 +15,6 @@ function ShelfBookCard({ book, onMoveBook, onRemoveBook }) {
         />
       </Link>
 
-      {/* Info */}
       <div className="shelf-book-info">
         <Link to={`/books/${book.id}`} className="shelf-book-title-link">
           <h3>{book.title}</h3>
@@ -25,7 +23,6 @@ function ShelfBookCard({ book, onMoveBook, onRemoveBook }) {
         <p className="shelf-book-year">{book.year}</p>
       </div>
 
-      {/* Actions */}
       <div className="shelf-book-actions">
         <div className="shelf-move">
           <label htmlFor={`move-${book.id}`}>Move to</label>

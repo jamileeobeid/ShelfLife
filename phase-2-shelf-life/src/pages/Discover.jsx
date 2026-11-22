@@ -190,7 +190,7 @@ function Discover() {
         </div>
 
         <div className="featured-books" aria-hidden="true">
-          {books.slice(0, 3).map((book, i) => (
+          {books.filter((b) => b.cover && !b.cover.includes("placeholder")).slice(0, 3).map((book, i) => (
             <img
               key={book.id}
               src={book.cover}
