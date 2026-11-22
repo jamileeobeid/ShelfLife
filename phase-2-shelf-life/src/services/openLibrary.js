@@ -80,6 +80,8 @@ function normalizeBook(book) {
   };
 }
 
+const searchCache = new Map();
+
 export async function searchBooks({ query = "", genre = "", offset = 0 } = {}, signal) {
   let q = query.trim();
   if (genre && genre !== "All") {
@@ -94,15 +96,21 @@ export async function searchBooks({ query = "", genre = "", offset = 0 } = {}, s
     fields: "key,title,author_name,first_publish_year,subject,cover_i"
   });
 
+  const cacheKey = `${q}|${offset}`;
+  if (searchCache.has(cacheKey)) return searchCache.get(cacheKey);
+
   const data = await fetchJSON(
     `${API_BASE}/search.json?${params.toString()}`,
     signal
   );
 
-  return {
+  const result = {
     books: (data.docs || []).map(normalizeBook).filter(Boolean),
     total: data.numFound || 0,
   };
+
+  searchCache.set(cacheKey, result);
+  return result;
 }
 
 export async function getBookDetails(id, signal) {
