@@ -6,13 +6,11 @@ import Button from "../components/Button";
 import { BookGridSkeleton } from "../components/Skeleton";
 import ErrorState from "../components/ErrorState";
 import EmptyState from "../components/EmptyState";
-import { sampleBooks } from "../data/sampleBooks";
 import "./Discover.css";
 import { searchBooks } from "../services/openLibrary";
 
 const GENRES = ["All", "Fiction", "Non-Fiction", "Romance", "Mystery", "Classics", "Poetry", "Historical", "Literary"];
 const PAGE_SIZE = 24;
-const FEATURED_BOOKS = sampleBooks.slice(-3);
 
 function Discover() {
   const [search, setSearch]           = useState("");
@@ -192,7 +190,7 @@ function Discover() {
         </div>
 
         <div className="featured-books" aria-hidden="true">
-          {FEATURED_BOOKS.map((book, i) => (
+          {books.slice(0, 3).map((book, i) => (
             <img
               key={book.id}
               src={book.cover}

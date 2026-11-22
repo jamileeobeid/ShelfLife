@@ -1,23 +1,17 @@
 import { createContext, useContext, useReducer, useEffect } from "react";
-import { sampleBooks } from "../data/sampleBooks";
 import { booksReducer, reviewsReducer } from "./booksReducer";
 
 const BookContext = createContext(null);
 
-const startingBooks = sampleBooks.slice(0, 9).map((book, index) => ({
-  ...book,
-  shelf: index < 4 ? "Want to Read" : index < 6 ? "Reading" : "Finished",
-}));
-
 function loadBooks() {
   try {
     const saved = localStorage.getItem("shelflife-books");
-    if (!saved) return startingBooks;
+    if (!saved) return [];
 
     const parsed = JSON.parse(saved);
-    return Array.isArray(parsed) ? parsed : startingBooks;
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
-    return startingBooks;
+    return [];
   }
 }
 
