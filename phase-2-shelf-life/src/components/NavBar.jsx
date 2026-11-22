@@ -5,7 +5,11 @@ import "./NavBar.css";
 function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(() => {
-    return localStorage.getItem("shelflife-theme") === "dark";
+    try {
+      return localStorage.getItem("shelflife-theme") === "dark";
+    } catch {
+      return false;
+    }
   });
 
   useEffect(() => {
@@ -13,7 +17,10 @@ function NavBar() {
       "data-theme",
       dark ? "dark" : "light",
     );
-    localStorage.setItem("shelflife-theme", dark ? "dark" : "light");
+    try {
+      localStorage.setItem("shelflife-theme", dark ? "dark" : "light");
+    } catch {
+    }
   }, [dark]);
 
   function closeMenu() {
@@ -22,7 +29,6 @@ function NavBar() {
 
   return (
     <header className="navbar">
-      {/* Brand */}
       <NavLink to="/" className="navbar-brand" onClick={closeMenu}>
         <svg
           className="navbar-leaf"
@@ -35,7 +41,6 @@ function NavBar() {
         ShelfLife
       </NavLink>
 
-      {/* Center nav */}
       <nav
         id="primary-navigation"
         aria-label="Main navigation"
@@ -87,7 +92,6 @@ function NavBar() {
         </button>
       </nav>
 
-      {/* Right: theme toggle + hamburger */}
       <div className="navbar-right">
         <button
           className="navbar-theme"
@@ -95,7 +99,6 @@ function NavBar() {
           aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
         >
           {dark ? (
-            /* Sun icon */
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -116,7 +119,6 @@ function NavBar() {
               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
             </svg>
           ) : (
-            /* Moon icon */
             <svg
               viewBox="0 0 24 24"
               fill="none"
