@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router";
 import { getBookDetails, getBookEditions } from "../services/openLibrary";
 import BookInfo from "../components/BookInfo";
 import SubjectList from "../components/SubjectList";
