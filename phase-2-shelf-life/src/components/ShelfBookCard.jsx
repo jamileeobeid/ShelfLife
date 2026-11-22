@@ -12,6 +12,7 @@ function ShelfBookCard({ book, onMoveBook, onRemoveBook }) {
           src={book.cover}
           alt={`Cover of ${book.title}`}
           className="shelf-book-cover"
+          onError={(e) => { e.currentTarget.src = "/book-placeholder.svg"; }}
         />
       </Link>
 

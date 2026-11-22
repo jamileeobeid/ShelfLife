@@ -136,14 +136,19 @@ export async function getBookDetails(id, signal) {
   }
 
   let year = "Unknown";
+  let searchCoverId = null;
   try {
     const searchData = await fetchJSON(
-      `${API_BASE}/search.json?q=key:/works/${id}&fields=first_publish_year&limit=1`,
+      `${API_BASE}/search.json?q=key:/works/${id}&fields=first_publish_year,cover_i&limit=1`,
       signal
     );
     year = searchData.docs?.[0]?.first_publish_year || "Unknown";
+    searchCoverId = searchData.docs?.[0]?.cover_i || null;
   } catch {
   }
+
+  const rawCoverId = data.covers?.find((c) => c > 0) ?? null;
+  const coverId = rawCoverId ?? (searchCoverId > 0 ? searchCoverId : null);
 
   return {
     id,
@@ -152,8 +157,8 @@ export async function getBookDetails(id, signal) {
     year,
     description,
     subjects: data.subjects || [],
-    cover:    data.covers?.[0]
-      ? `${COVER_BASE}/b/id/${data.covers[0]}-L.jpg`
+    cover:    coverId
+      ? `${COVER_BASE}/b/id/${coverId}-L.jpg`
       : "/book-placeholder.svg"
   };
 }
