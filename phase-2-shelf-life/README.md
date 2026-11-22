@@ -39,7 +39,7 @@ Every page:
 | [Node.js](https://nodejs.org/) | **20.19 or newer**, or **22.12 or newer**. Vite 8 requires this. | `node -v` |
 | npm | Comes with Node.js | `npm -v` |
 | Git | Any recent version | `git --version` |
-| A modern browser | Chrome, Edge, Firefox or Safari | |
+| A modern browser | Chrome, Edge or Firefox | |
 | Internet connection | The app fetches live data from Open Library | |
 
 **You do not need an API key or any environment variables.** Open Library's API is free and public. There is no `.env` file, and no keys are in the repository.
