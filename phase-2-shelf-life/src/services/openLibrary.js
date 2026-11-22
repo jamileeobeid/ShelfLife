@@ -110,7 +110,13 @@ export async function getBookDetails(id, signal) {
     throw new ApiError("Invalid Open Library work ID.", "INVALID_ID");
   }
 
-  const data = await fetchJSON(`${API_BASE}/works/${id}.json`, signal);
+  const [data, searchData] = await Promise.all([
+    fetchJSON(`${API_BASE}/works/${id}.json`, signal),
+    fetchJSON(
+      `${API_BASE}/search.json?q=key:/works/${id}&fields=first_publish_year,cover_i&limit=1`,
+      signal
+    ).catch(() => null),
+  ]);
 
   const description =
     typeof data.description === "string"
@@ -135,17 +141,8 @@ export async function getBookDetails(id, signal) {
     }
   }
 
-  let year = "Unknown";
-  let searchCoverId = null;
-  try {
-    const searchData = await fetchJSON(
-      `${API_BASE}/search.json?q=key:/works/${id}&fields=first_publish_year,cover_i&limit=1`,
-      signal
-    );
-    year = searchData.docs?.[0]?.first_publish_year || "Unknown";
-    searchCoverId = searchData.docs?.[0]?.cover_i || null;
-  } catch {
-  }
+  const year = searchData?.docs?.[0]?.first_publish_year || "Unknown";
+  const searchCoverId = searchData?.docs?.[0]?.cover_i || null;
 
   const rawCoverId = data.covers?.find((c) => c > 0) ?? null;
   const coverId = rawCoverId ?? (searchCoverId > 0 ? searchCoverId : null);
